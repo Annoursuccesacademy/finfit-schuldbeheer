@@ -1392,15 +1392,15 @@
                     <h3>Stap 1: Persoonlijke Gegevens</h3>
                     <div class="form-group">
                         <label>Naam</label>
-                        <input type="text" name="name" required>
+                        <input type="text" name="name">
                     </div>
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" name="email" required>
+                        <input type="email" name="email">
                     </div>
                     <div class="form-group">
                         <label>Telefoon</label>
-                        <input type="tel" name="phone" required>
+                        <input type="tel" name="phone">
                     </div>
                     <div class="form-group">
                         <label>Adres</label>
@@ -1424,15 +1424,15 @@
                         <div class="income-item">
                             <div class="form-group">
                                 <label>Omschrijving</label>
-                                <input type="text" name="income_description[]" placeholder="bijv. Salaris" required>
+                                <input type="text" name="income_description[]" placeholder="bijv. Salaris">
                             </div>
                             <div class="form-group">
                                 <label>Bedrag</label>
-                                <input type="number" name="income_amount[]" step="0.01" required>
+                                <input type="number" name="income_amount[]" step="0.01">
                             </div>
                             <div class="form-group">
                                 <label>Frequentie</label>
-                                <select name="income_frequency[]" required>
+                                <select name="income_frequency[]">
                                     <option value="monthly">Maandelijks</option>
                                     <option value="weekly">Wekelijks</option>
                                     <option value="yearly">Jaarlijks</option>
@@ -1454,7 +1454,7 @@
                         <div class="expense-item">
                             <div class="form-group">
                                 <label>Categorie</label>
-                                <select name="expense_category[]" required>
+                                <select name="expense_category[]">
                                     <option value="vaste_lasten">Vaste Lasten</option>
                                     <option value="boodschappen">Boodschappen</option>
                                     <option value="verzekeringen">Verzekeringen</option>
@@ -1464,15 +1464,15 @@
                             </div>
                             <div class="form-group">
                                 <label>Omschrijving</label>
-                                <input type="text" name="expense_description[]" placeholder="bijv. Huur" required>
+                                <input type="text" name="expense_description[]" placeholder="bijv. Huur">
                             </div>
                             <div class="form-group">
                                 <label>Bedrag</label>
-                                <input type="number" name="expense_amount[]" step="0.01" required>
+                                <input type="number" name="expense_amount[]" step="0.01">
                             </div>
                             <div class="form-group">
                                 <label>Frequentie</label>
-                                <select name="expense_frequency[]" required>
+                                <select name="expense_frequency[]">
                                     <option value="monthly">Maandelijks</option>
                                     <option value="weekly">Wekelijks</option>
                                     <option value="yearly">Jaarlijks</option>
@@ -1534,17 +1534,17 @@
                 <h3>Nieuwe Schuld Toevoegen</h3>
                 <div class="form-group">
                     <label>Cliënt</label>
-                    <select name="client_id" required id="debtClientId">
+                    <select name="client_id" id="debtClientId">
                         <!-- Opties worden dynamisch ingevuld -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Schuldeiser</label>
-                    <input type="text" name="creditor" required>
+                    <input type="text" name="creditor">
                 </div>
                 <div class="form-group">
                     <label>Bedrag</label>
-                    <input type="number" name="amount" step="0.01" required>
+                    <input type="number" name="amount" step="0.01">
                 </div>
                 <div class="form-group">
                     <label>Rente percentage</label>
@@ -1605,11 +1605,11 @@
                             <input type="hidden" id="editDebtId">
                             <div class="form-group">
                                 <label>Schuldeiser</label>
-                                <input type="text" id="editDebtCreditor" required>
+                                <input type="text" id="editDebtCreditor" >
                             </div>
                             <div class="form-group">
                                 <label>Bedrag</label>
-                                <input type="number" id="editDebtAmount" step="0.01" required>
+                                <input type="number" id="editDebtAmount" step="0.01">
                             </div>
                             <div class="form-group">
                                 <label>Rente percentage</label>
@@ -1723,15 +1723,15 @@
                 </div>
                 <div class="form-group">
                     <label>Datum</label>
-                    <input type="date" id="paymentDate" name="payment_date" required>
+                    <input type="date" id="paymentDate" name="payment_date">
                 </div>
                 <div class="form-group">
                     <label>Bedrag</label>
-                    <input type="number" id="paymentAmount" name="amount" step="0.01" required>
+                    <input type="number" id="paymentAmount" name="amount" step="0.01">
                 </div>
                 <div class="form-group">
                     <label>Methode</label>
-                    <select id="paymentMethod" name="payment_method" required>
+                    <select id="paymentMethod" name="payment_method">
                         <option value="bank">Bank overschrijving</option>
                         <option value="cash">Contant</option>
                         <option value="auto">Automatische incasso</option>
@@ -1740,7 +1740,7 @@
                 </div>
                 <div class="form-group">
                     <label>Bevestigd</label>
-                    <select id="paymentConfirmed" name="is_confirmed" required>
+                    <select id="paymentConfirmed" name="is_confirmed">
                         <option value="true">Ja</option>
                         <option value="false">Nee</option>
                     </select>
@@ -1768,11 +1768,11 @@
                 </div>
                 <div class="form-group">
                     <label>Datum</label>
-                    <input type="date" id="contactDate" name="date" required>
+                    <input type="date" id="contactDate" name="date">
                 </div>
                 <div class="form-group">
                     <label>Type</label>
-                    <select id="contactType" name="contact_type" required>
+                    <select id="contactType" name="contact_type">
                         <option value="telephone">Telefonisch</option>
                         <option value="email">E-mail</option>
                         <option value="letter">Brief</option>
@@ -1933,16 +1933,18 @@
                 
                 // Verzamel basis client gegevens
                 const clientData = {
-                    name: formData.get('name'),
-                    email: formData.get('email'),
-                    phone: formData.get('phone'),
-                    address: formData.get('address') || null,
-                    postal_code: formData.get('postal_code') || null,
-                    city: formData.get('city') || null,
-                    budget: {
-                        income_items: [],
-                        expense_items: []
-                    },
+                    name: formData.get('name') || 'Onbekende cliënt',
+                    email: formData.get('email') || '',
+                    phone: formData.get('phone') || '',
+                    address: formData.get('address') || '',
+                    postal_code: formData.get('postal_code') || '',
+                    city: formData.get('city') || '',
+                    date_of_birth: formData.get('date_of_birth') || '',
+                    bsn: formData.get('bsn') || '',
+                    marital_status: formData.get('marital_status') || '',
+                    household_size: parseInt(formData.get('household_size')) || 1,
+                    income: [],
+                    expenses: [],
                     debts: []
                 };
                 
@@ -1955,7 +1957,7 @@
 
                 for (let i = 0; i < incomeDescriptions.length; i++) {
                     if (incomeDescriptions[i] && incomeAmounts[i]) {
-                        clientData.budget.income_items.push({
+                        clientData.income.push({
                             category: 'inkomen',
                             description: incomeDescriptions[i].trim(),
                             amount: parseFloat(incomeAmounts[i]),
@@ -1972,8 +1974,8 @@
 
                 for (let i = 0; i < expenseDescriptions.length; i++) {
                     if (expenseDescriptions[i] && expenseAmounts[i]) {
-                        clientData.budget.expense_items.push({
-                            category: expenseCategories[i] || 'overig',
+                        clientData.expenses.push({
+                            category: expenseCategories[i],
                             description: expenseDescriptions[i].trim(),
                             amount: parseFloat(expenseAmounts[i]),
                             frequency: expenseFrequencies[i]
@@ -2408,15 +2410,15 @@
             newItem.innerHTML = `
                 <div class="form-group">
                     <label>Omschrijving</label>
-                    <input type="text" name="income_description[]" placeholder="bijv. Salaris" required>
+                    <input type="text" name="income_description[]" placeholder="bijv. Salaris">
                 </div>
                 <div class="form-group">
                     <label>Bedrag</label>
-                    <input type="number" name="income_amount[]" step="0.01" required>
+                    <input type="number" name="income_amount[]" step="0.01">
                 </div>
                 <div class="form-group">
                     <label>Frequentie</label>
-                    <select name="income_frequency[]" required>
+                    <select name="income_frequency[]">
                         <option value="monthly">Maandelijks</option>
                         <option value="weekly">Wekelijks</option>
                         <option value="yearly">Jaarlijks</option>
@@ -2434,7 +2436,7 @@
             newItem.innerHTML = `
                 <div class="form-group">
                     <label>Categorie</label>
-                    <select name="expense_category[]" required>
+                    <select name="expense_category[]">
                         <option value="vaste_lasten">Vaste Lasten</option>
                         <option value="boodschappen">Boodschappen</option>
                         <option value="verzekeringen">Verzekeringen</option>
@@ -2444,15 +2446,15 @@
                 </div>
                 <div class="form-group">
                     <label>Omschrijving</label>
-                    <input type="text" name="expense_description[]" placeholder="bijv. Huur" required>
+                    <input type="text" name="expense_description[]" placeholder="bijv. Huur">
                 </div>
                 <div class="form-group">
                     <label>Bedrag</label>
-                    <input type="number" name="expense_amount[]" step="0.01" required>
+                    <input type="number" name="expense_amount[]" step="0.01">
                 </div>
                 <div class="form-group">
                     <label>Frequentie</label>
-                    <select name="expense_frequency[]" required>
+                    <select name="expense_frequency[]">
                         <option value="monthly">Maandelijks</option>
                         <option value="weekly">Wekelijks</option>
                         <option value="yearly">Jaarlijks</option>
@@ -2470,11 +2472,11 @@
             newItem.innerHTML = `
                 <div class="form-group">
                     <label>Schuldeiser</label>
-                    <input type="text" name="debt_creditor[]" required>
+                    <input type="text" name="debt_creditor[]" placeholder="Naam schuldeiser">
                 </div>
                 <div class="form-group">
                     <label>Bedrag</label>
-                    <input type="number" name="debt_amount[]" step="0.01" required>
+                    <input type="number" name="debt_amount[]" step="0.01" placeholder="0.00">
                 </div>
                 <div class="form-group">
                     <label>Rente percentage</label>
@@ -2502,27 +2504,23 @@
             
             // Verzamel client data
             const clientData = {
-                first_name: formData.get('first_name'),
-                last_name: formData.get('last_name'),
-                email: formData.get('email'),
-                phone: formData.get('phone'),
-                address: formData.get('address'),
-                postal_code: formData.get('postal_code'),
-                city: formData.get('city'),
-                date_of_birth: formData.get('date_of_birth'),
-                bsn: formData.get('bsn'),
-                marital_status: formData.get('marital_status'),
+                first_name: formData.get('first_name') || 'Onbekende cliënt',
+                last_name: formData.get('last_name') || '',
+                email: formData.get('email') || '',
+                phone: formData.get('phone') || '',
+                address: formData.get('address') || '',
+                postal_code: formData.get('postal_code') || '',
+                city: formData.get('city') || '',
+                date_of_birth: formData.get('date_of_birth') || '',
+                bsn: formData.get('bsn') || '',
+                marital_status: formData.get('marital_status') || '',
                 household_size: parseInt(formData.get('household_size')) || 1,
                 income: [],
                 expenses: [],
                 debts: []
             };
             
-            // Valideer verplichte velden
-            if (!clientData.first_name || !clientData.last_name) {
-                showNotification('Vul alle verplichte velden in', 'error');
-                return;
-            }
+            // Geen validatie meer nodig, we gebruiken standaardwaarden
             
             // Income items
             const incomeDescriptions = formData.getAll('income_description[]');
