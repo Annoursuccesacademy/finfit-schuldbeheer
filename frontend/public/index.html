@@ -1826,77 +1826,7 @@
                 });
             });
             
-            // Voeg event listeners toe voor alle knoppen
-            // Client opslaan knop
-            const finalSaveButton = document.getElementById('finalSaveButton');
-            if (finalSaveButton) {
-                finalSaveButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log('finalSaveButton clicked');
-                    saveClientData();
-                });
-            }
-            
-            // Schuld opslaan knop
-            const saveDebtButton = document.getElementById('saveDebtButton');
-            if (saveDebtButton) {
-                saveDebtButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log('saveDebtButton clicked');
-                    handleDebtFormSubmit(e);
-                });
-            }
-            
-            // Voeg event listeners toe voor alle onclick attributen
-            document.querySelectorAll('button[onclick]').forEach(button => {
-                const onclickAttr = button.getAttribute('onclick');
-                console.log(`Found button with onclick: ${onclickAttr}`);
-                
-                if (onclickAttr) {
-                    // Bewaar de functie en parameters
-                    const match = onclickAttr.match(/(\w+)\((?:'([^']+)'|event)?\)/);
-                    if (match) {
-                        const funcName = match[1];
-                        const param = match[2];
-                        
-                        console.log(`Adding event listener for ${funcName} with param ${param}`);
-                        
-                        // Voeg een event listener toe
-                        button.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            console.log(`Button clicked, calling ${funcName}(${param})`);
-                            
-                            if (funcName === 'showModal') {
-                                showModal(param);
-                            } else if (funcName === 'hideModal') {
-                                hideModal(param);
-                            } else if (funcName === 'nextStep') {
-                                nextStep(param);
-                            } else if (funcName === 'prevStep') {
-                                prevStep(param);
-                            } else if (funcName === 'addIncomeItem') {
-                                addIncomeItem();
-                            } else if (funcName === 'addExpenseItem') {
-                                addExpenseItem();
-                            } else if (funcName === 'addDebtItem') {
-                                addDebtItem();
-                            } else if (funcName === 'saveClientData') {
-                                saveClientData();
-                            } else if (funcName === 'handleDebtFormSubmit') {
-                                handleDebtFormSubmit(e);
-                            } else if (funcName === 'showDebtTab') {
-                                showDebtTab(param);
-                            } else if (funcName === 'showAddPaymentModal') {
-                                showAddPaymentModal();
-                            } else if (funcName === 'showAddContactModal') {
-                                showAddContactModal();
-                            }
-                        });
-                    }
-                }
-            });
-            
-            // Stel de formulier submit handlers in
+            // Setup formulier handlers
             setupFormSubmitHandlers();
             
             // Haal gegevens op
@@ -1917,6 +1847,12 @@
             
             try {
                 const formData = new FormData(e.target);
+                
+                // Debug formData
+                console.log('FormData entries:');
+                for (let [key, value] of formData.entries()) {
+                    console.log(`${key}: ${value}`);
+                }
                 
                 // Verzamel basis client gegevens
                 const clientData = {
@@ -1942,7 +1878,9 @@
                     ...clientData
                 };
                 
+                console.log('Adding new client to local data:', newClient);
                 clients.push(newClient);
+                console.log('Updated clients array:', clients);
                 
                 // Update UI
                 updateClientTable();
@@ -2365,39 +2303,74 @@
         
         // Fetch initial data
         async function fetchData() {
+            console.log('Fetching data...');
+            
             try {
-                console.log('Fetching data from API');
-                const clientsResponse = await fetch(`${API_URL}/clients/`);
-                const debtsResponse = await fetch(`${API_URL}/debts/`);
+                // In een echte applicatie zou dit een API call zijn
+                // Simuleer data voor demo doeleinden
                 
-                if (!clientsResponse.ok) {
-                    throw new Error(`Error fetching clients: ${clientsResponse.status}`);
-                }
+                // Simuleer clients data
+                clients = [
+                    {
+                        id: '1',
+                        name: 'Jan Jansen',
+                        email: 'jan.jansen@example.com',
+                        phone: '06-12345678',
+                        address: 'Hoofdstraat 1',
+                        postal_code: '1234 AB',
+                        city: 'Amsterdam',
+                        income: [
+                            { category: 'inkomen', description: 'Salaris', amount: 1800, frequency: 'monthly' }
+                        ],
+                        expenses: [
+                            { category: 'vaste_lasten', description: 'Huur', amount: 750, frequency: 'monthly' },
+                            { category: 'boodschappen', description: 'Boodschappen', amount: 300, frequency: 'monthly' }
+                        ],
+                        debts: []
+                    }
+                ];
                 
-                if (!debtsResponse.ok) {
-                    throw new Error(`Error fetching debts: ${debtsResponse.status}`);
-                }
+                // Simuleer schulden data
+                debts = [
+                    {
+                        id: 1,
+                        client_id: '1',
+                        creditor: 'Energiebedrijf',
+                        amount: 1200,
+                        interest_rate: 5.5,
+                        start_date: '2023-01-15',
+                        status: 'active',
+                        payment_history: [
+                            { id: 1, payment_date: '2023-02-15', amount: 100, payment_method: 'bank', is_confirmed: true }
+                        ],
+                        contact_history: [
+                            { id: 1, date: '2023-01-20', contact_type: 'telephone', notes: 'Betalingsregeling besproken', outcome: 'Positief' }
+                        ],
+                        notes: 'Cliënt heeft betalingsregeling getroffen.'
+                    }
+                ];
                 
-                clients = await clientsResponse.json();
-                debts = await debtsResponse.json();
-                
-                console.log('Fetched clients:', clients);
-                console.log('Fetched debts:', debts);
-                
+                // Update UI
                 updateClientTable();
                 updateDebtTable();
+                updateClientSelect();
                 updateStats();
                 updateChart();
-                updateClientSelect();
+                
+                console.log('Data loaded successfully');
             } catch (error) {
                 console.error('Error fetching data:', error);
+                showNotification('Er is een fout opgetreden bij het ophalen van de gegevens', 'error');
             }
         }
         
         // Update client table
-        function updateClientTable() {
+        function updateClientTable(clients) {
             const tableBody = document.querySelector('#clientsTable tbody');
-            console.log('Updating client table with', clients.length, 'clients');
+            console.log('Duplicate updateClientTable called with', clients);
+            
+            // Als clients niet is meegegeven, gebruik de globale clients array
+            const clientsToShow = clients || window.clients;
             
             if (!tableBody) {
                 console.error('Client table body not found');
@@ -2406,26 +2379,27 @@
             
             tableBody.innerHTML = '';
             
-            if (clients.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Geen cliënten gevonden</td></tr>';
+            if (!clientsToShow || clientsToShow.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="4" class="text-center">Geen cliënten gevonden</td></tr>';
                 return;
             }
             
-            clients.forEach(client => {
-                console.log('Adding client to table:', client);
-                const clientDebts = debts.filter(d => d.client_id === client.id);
-                const totalDebt = clientDebts.reduce((sum, debt) => sum + debt.amount, 0);
-                
+            clientsToShow.forEach(client => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${client.name}</td>
                     <td>${client.email || '-'}</td>
                     <td>${client.phone || '-'}</td>
-                    <td>€${totalDebt.toFixed(2)}</td>
                     <td>
-                        <button onclick="viewClient(${client.id})" class="button-icon"><i class="material-icons">visibility</i></button>
-                        <button onclick="editClient(${client.id})" class="button-icon"><i class="material-icons">edit</i></button>
-                        <button onclick="deleteClient(${client.id})" class="button-icon"><i class="material-icons">delete</i></button>
+                        <button class="button-icon" onclick="viewClient('${client.id}')">
+                            <i class="material-icons">visibility</i>
+                        </button>
+                        <button class="button-icon" onclick="editClient('${client.id}')">
+                            <i class="material-icons">edit</i>
+                        </button>
+                        <button class="button-icon" onclick="deleteClient('${client.id}')">
+                            <i class="material-icons">delete</i>
+                        </button>
                     </td>
                 `;
                 tableBody.appendChild(row);
@@ -2460,9 +2434,15 @@
                     <td>${debt.interest_rate ? debt.interest_rate + '%' : '-'}</td>
                     <td>${debt.start_date || '-'}</td>
                     <td>
-                        <button onclick="viewDebt(${debt.id})" class="button-icon"><i class="material-icons">visibility</i></button>
-                        <button onclick="editDebt(${debt.id})" class="button-icon"><i class="material-icons">edit</i></button>
-                        <button onclick="deleteDebt(${debt.id})" class="button-icon"><i class="material-icons">delete</i></button>
+                        <button class="button-icon" onclick="viewDebt(${debt.id})">
+                            <i class="material-icons">visibility</i>
+                        </button>
+                        <button class="button-icon" onclick="editDebt(${debt.id})">
+                            <i class="material-icons">edit</i>
+                        </button>
+                        <button class="button-icon" onclick="deleteDebt(${debt.id})">
+                            <i class="material-icons">delete</i>
+                        </button>
                     </td>
                 `;
                 tableBody.appendChild(row);
@@ -2599,10 +2579,13 @@
         
         // Helper functions voor client/debt details
         function viewClient(clientId) {
+            console.log(`Viewing client with ID: ${clientId}`);
             const client = clients.find(c => c.id === clientId);
             if (client) {
-                alert(`Client details: ${client.name} (${client.email})`);
-                // Later implementeren: detail view
+                alert(`Client details voor ${client.name}:\nEmail: ${client.email}\nTelefoon: ${client.phone}\nAdres: ${client.address}, ${client.postal_code} ${client.city}`);
+            } else {
+                console.error(`Client with ID ${clientId} not found`);
+                showNotification('Client niet gevonden', 'error');
             }
         }
         
@@ -2637,13 +2620,13 @@
                     <td>${client.email}</td>
                     <td>${client.phone}</td>
                     <td>
-                        <button class="button-icon" onclick="viewClient(${client.id})">
+                        <button class="button-icon" onclick="viewClient('${client.id}')">
                             <i class="material-icons">visibility</i>
                         </button>
-                        <button class="button-icon" onclick="editClient(${client.id})">
+                        <button class="button-icon" onclick="editClient('${client.id}')">
                             <i class="material-icons">edit</i>
                         </button>
-                        <button class="button-icon" onclick="deleteClient(${client.id})">
+                        <button class="button-icon" onclick="deleteClient('${client.id}')">
                             <i class="material-icons">delete</i>
                         </button>
                     </td>
