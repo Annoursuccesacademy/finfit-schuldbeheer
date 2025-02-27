@@ -1163,6 +1163,97 @@
         .text-center {
             text-align: center;
         }
+        
+        /* Nieuwe stijlen voor verbeterde opmaak */
+        .simplified-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .form-group.half {
+            flex: 1;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .button.primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        
+        .button.primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .button.secondary {
+            background-color: white;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        
+        .button.secondary:hover {
+            background-color: var(--hover-bg);
+        }
+        
+        input, select, textarea {
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        
+        label {
+            font-weight: 500;
+            margin-bottom: 4px;
+            display: block;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .modal h2 {
+            margin-top: 0;
+            color: var(--text-color);
+            font-size: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
     </style>
 </head>
 <body>
@@ -1386,141 +1477,37 @@
         <div class="modal-content">
             <span class="close" onclick="hideModal('addClientModal')">&times;</span>
             <h2>Nieuwe Cliënt Toevoegen</h2>
-            <form id="addClientForm" class="multi-step-form">
-                <!-- Stap 1: Persoonlijke gegevens -->
-                <div class="form-step" id="step1">
-                    <h3>Stap 1: Persoonlijke Gegevens</h3>
-                    <div class="form-group">
-                        <label>Naam</label>
-                        <input type="text" name="name">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="email">
-                    </div>
-                    <div class="form-group">
-                        <label>Telefoon</label>
-                        <input type="tel" name="phone">
-                    </div>
-                    <div class="form-group">
-                        <label>Adres</label>
-                        <input type="text" name="address">
-                    </div>
-                    <div class="form-group">
+            <form id="addClientForm" class="simplified-form">
+                <div class="form-group">
+                    <label>Naam</label>
+                    <input type="text" name="name" placeholder="Naam van de cliënt">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="email@voorbeeld.nl">
+                </div>
+                <div class="form-group">
+                    <label>Telefoon</label>
+                    <input type="tel" name="phone" placeholder="06-12345678">
+                </div>
+                <div class="form-group">
+                    <label>Adres</label>
+                    <input type="text" name="address" placeholder="Straatnaam en huisnummer">
+                </div>
+                <div class="form-row">
+                    <div class="form-group half">
                         <label>Postcode</label>
-                        <input type="text" name="postal_code">
+                        <input type="text" name="postal_code" placeholder="1234 AB">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group half">
                         <label>Stad</label>
-                        <input type="text" name="city">
-                    </div>
-                    <button type="button" class="button" onclick="nextStep(2)">Volgende</button>
-                </div>
-
-                <!-- Stap 2: Inkomsten -->
-                <div class="form-step" id="step2" style="display: none;">
-                    <h3>Stap 2: Inkomsten</h3>
-                    <div id="incomeItems">
-                        <div class="income-item">
-                            <div class="form-group">
-                                <label>Omschrijving</label>
-                                <input type="text" name="income_description[]" placeholder="bijv. Salaris">
-                            </div>
-                            <div class="form-group">
-                                <label>Bedrag</label>
-                                <input type="number" name="income_amount[]" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label>Frequentie</label>
-                                <select name="income_frequency[]">
-                                    <option value="monthly">Maandelijks</option>
-                                    <option value="weekly">Wekelijks</option>
-                                    <option value="yearly">Jaarlijks</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="button" class="button" onclick="addIncomeItem()">+ Inkomstenbron Toevoegen</button>
-                    <div class="button-group">
-                        <button type="button" class="button secondary" onclick="prevStep(1)">Vorige</button>
-                        <button type="button" class="button" onclick="nextStep(3)">Volgende</button>
+                        <input type="text" name="city" placeholder="Amsterdam">
                     </div>
                 </div>
-
-                <!-- Stap 3: Uitgaven -->
-                <div class="form-step" id="step3" style="display: none;">
-                    <h3>Stap 3: Uitgaven</h3>
-                    <div id="expenseItems">
-                        <div class="expense-item">
-                            <div class="form-group">
-                                <label>Categorie</label>
-                                <select name="expense_category[]">
-                                    <option value="vaste_lasten">Vaste Lasten</option>
-                                    <option value="boodschappen">Boodschappen</option>
-                                    <option value="verzekeringen">Verzekeringen</option>
-                                    <option value="vervoer">Vervoer</option>
-                                    <option value="overig">Overig</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Omschrijving</label>
-                                <input type="text" name="expense_description[]" placeholder="bijv. Huur">
-                            </div>
-                            <div class="form-group">
-                                <label>Bedrag</label>
-                                <input type="number" name="expense_amount[]" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label>Frequentie</label>
-                                <select name="expense_frequency[]">
-                                    <option value="monthly">Maandelijks</option>
-                                    <option value="weekly">Wekelijks</option>
-                                    <option value="yearly">Jaarlijks</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="button" class="button" onclick="addExpenseItem()">+ Uitgave Toevoegen</button>
-                    <div class="button-group">
-                        <button type="button" class="button secondary" onclick="prevStep(2)">Vorige</button>
-                        <button type="button" class="button" onclick="nextStep(4)">Volgende</button>
-                    </div>
-                </div>
-
-                <!-- Stap 4: Schulden -->
-                <div class="form-step" id="step4" style="display: none;">
-                    <h3>Stap 4: Bestaande Schulden</h3>
-                    <div id="debtItems">
-                        <div class="debt-item">
-                            <div class="form-group">
-                                <label for="debt_creditor">Schuldeiser</label>
-                                <input type="text" name="debt_creditor[]" placeholder="Naam schuldeiser">
-                            </div>
-                            <div class="form-group">
-                                <label for="debt_amount">Bedrag (€)</label>
-                                <input type="number" name="debt_amount[]" step="0.01" placeholder="0.00">
-                            </div>
-                            <div class="form-group">
-                                <label for="debt_interest">Rente percentage</label>
-                                <input type="number" name="debt_interest[]" step="0.1">
-                            </div>
-                            <div class="form-group">
-                                <label for="debt_start_date">Start datum</label>
-                                <input type="date" name="debt_start_date[]">
-                            </div>
-                            <div class="form-group">
-                                <label for="debt_end_date">Eind datum</label>
-                                <input type="date" name="debt_end_date[]">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button type="button" class="button secondary" onclick="addDebtItem()">+ Schuld Toevoegen</button>
-                    
-                    <div class="form-navigation">
-                        <button type="button" class="button secondary" onclick="prevStep(3)">Terug</button>
-                        <button type="button" class="button primary" id="finalSaveButton" onclick="saveClientData()">Opslaan</button>
-                    </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="button secondary" onclick="hideModal('addClientModal')">Annuleren</button>
+                    <button type="submit" class="button primary">Cliënt Opslaan</button>
                 </div>
             </form>
         </div>
@@ -1922,7 +1909,7 @@
             console.log('Client form submission started');
             
             // Toon submitfeedback
-            const submitBtn = document.getElementById('finalSaveButton');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
             if (submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Bezig met opslaan...';
@@ -1939,108 +1926,47 @@
                     address: formData.get('address') || '',
                     postal_code: formData.get('postal_code') || '',
                     city: formData.get('city') || '',
-                    date_of_birth: formData.get('date_of_birth') || '',
-                    bsn: formData.get('bsn') || '',
-                    marital_status: formData.get('marital_status') || '',
-                    household_size: parseInt(formData.get('household_size')) || 1,
                     income: [],
                     expenses: [],
                     debts: []
                 };
                 
                 console.log('Client data collected:', clientData);
-
-                // Income items
-                const incomeDescriptions = formData.getAll('income_description[]');
-                const incomeAmounts = formData.getAll('income_amount[]');
-                const incomeFrequencies = formData.getAll('income_frequency[]');
-
-                for (let i = 0; i < incomeDescriptions.length; i++) {
-                    if (incomeDescriptions[i] && incomeAmounts[i]) {
-                        clientData.income.push({
-                            category: 'inkomen',
-                            description: incomeDescriptions[i].trim(),
-                            amount: parseFloat(incomeAmounts[i]),
-                            frequency: incomeFrequencies[i]
-                        });
-                    }
-                }
-
-                // Expense items
-                const expenseCategories = formData.getAll('expense_category[]');
-                const expenseDescriptions = formData.getAll('expense_description[]');
-                const expenseAmounts = formData.getAll('expense_amount[]');
-                const expenseFrequencies = formData.getAll('expense_frequency[]');
-
-                for (let i = 0; i < expenseDescriptions.length; i++) {
-                    if (expenseDescriptions[i] && expenseAmounts[i]) {
-                        clientData.expenses.push({
-                            category: expenseCategories[i],
-                            description: expenseDescriptions[i].trim(),
-                            amount: parseFloat(expenseAmounts[i]),
-                            frequency: expenseFrequencies[i]
-                        });
-                    }
-                }
-
-                // Debts
-                const debtCreditor = formData.getAll('debt_creditor[]');
-                const debtAmount = formData.getAll('debt_amount[]');
-                const debtInterest = formData.getAll('debt_interest[]');
-                const debtStartDate = formData.getAll('debt_start_date[]');
-                const debtEndDate = formData.getAll('debt_end_date[]');
-
-                for (let i = 0; i < debtCreditor.length; i++) {
-                    if (debtCreditor[i] && debtAmount[i]) {
-                        clientData.debts.push({
-                            creditor: debtCreditor[i],
-                            amount: parseFloat(debtAmount[i]),
-                            interest_rate: debtInterest[i] ? parseFloat(debtInterest[i]) : null,
-                            start_date: debtStartDate[i] || null,
-                            end_date: debtEndDate[i] || null
-                        });
-                    }
-                }
-
-                console.log('Sending to API:', JSON.stringify(clientData, null, 2));
                 
-                // API call to add client
-                const clientResponse = await fetch(`${API_URL}/clients/`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(clientData),
-                });
+                // Simuleer API call (in echte applicatie zou dit een fetch naar de backend zijn)
+                await new Promise(resolve => setTimeout(resolve, 500));
                 
-                if (!clientResponse.ok) {
-                    const errorData = await clientResponse.text();
-                    throw new Error(`API error: ${errorData}`);
-                }
+                // Voeg client toe aan lokale data
+                const newClient = {
+                    id: Date.now().toString(),
+                    ...clientData
+                };
                 
-                const newClient = await clientResponse.json();
-                console.log('New client created:', newClient);
+                clients.push(newClient);
                 
-                // Reset form and hide modal
+                // Update UI
+                updateClientTable();
+                updateClientSelect();
+                updateStats();
+                
+                // Toon succes bericht
+                showNotification('Cliënt succesvol toegevoegd!', 'success');
+                
+                // Reset formulier en sluit modal
                 e.target.reset();
                 hideModal('addClientModal');
                 
-                // Reset to step 1 for next time
-                document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
-                document.getElementById('step1').style.display = 'block';
-                
-                // Update data
-                await fetchData();
-                
-                // Show confirmation
-                showNotification(`Cliënt ${newClient.name} is toegevoegd!`, 'success');
+                // Toon de nieuwe client in de lijst
+                showSection('clients');
                 
             } catch (error) {
-                console.error('Error adding client:', error);
-                showNotification(`Fout bij toevoegen cliënt: ${error.message}`, 'error');
+                console.error('Error saving client:', error);
+                showNotification('Er is een fout opgetreden bij het opslaan van de cliënt', 'error');
             } finally {
                 // Reset submit button
                 if (submitBtn) {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = 'Opslaan';
+                    submitBtn.textContent = 'Cliënt Opslaan';
                 }
             }
         }
@@ -2117,6 +2043,9 @@
             console.log('Met data:', JSON.stringify(debtData, null, 2));
             
             // Simuleer succesvolle toevoeging
+            if (!debtData.client_id) {
+                debtData.client_id = 1;
+            }
             const mockResponse = {
                 id: Date.now(),
                 ...debtData,
@@ -2179,197 +2108,25 @@
             // Client form submit
             const clientForm = document.getElementById('addClientForm');
             if (clientForm) {
-                clientForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    handleClientFormSubmit(e);
-                });
-                
-                // Ook de finalSaveButton koppelen
-                const finalSaveButton = document.getElementById('finalSaveButton');
-                if (finalSaveButton) {
-                    finalSaveButton.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        saveClientData();
-                    });
-                }
-            }
-            
-            // Payment form submit
-            const paymentForm = document.getElementById('addPaymentForm');
-            if (paymentForm) {
-                paymentForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const debtId = parseInt(document.getElementById('paymentDebtId').value);
-                    const debt = debts.find(d => d.id === debtId);
-                    
-                    if (!debt) {
-                        showNotification('Schuld niet gevonden', 'error');
-                        return;
-                    }
-                    
-                    const formData = new FormData(this);
-                    const paymentData = {
-                        payment_date: formData.get('payment_date'),
-                        amount: parseFloat(formData.get('amount')),
-                        payment_method: formData.get('payment_method'),
-                        is_confirmed: formData.get('is_confirmed') === 'true',
-                        notes: formData.get('notes')
-                    };
-                    
-                    console.log('Payment data:', paymentData);
-                    
-                    // Simuleer succesvolle toevoeging
-                    if (!debt.payment_history) {
-                        debt.payment_history = [];
-                    }
-                    debt.payment_history.push({
-                        ...paymentData,
-                        id: Date.now()
-                    });
-                    
-                    // Reset form en sluit modal
-                    this.reset();
-                    hideModal('addPaymentModal');
-                    
-                    // Update UI
-                    updatePaymentHistory();
-                    
-                    showNotification('Betaling is succesvol toegevoegd', 'success');
-                    
-                    /* Echte API call (uitgecommentarieerd voor testen)
-                    // API call om betaling toe te voegen
-                    fetch(`${API_URL}/debts/${debtId}/payments/`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(paymentData)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Toevoegen betaling mislukt');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        // Voeg toe aan lokale data
-                        if (!debt.payment_history) {
-                            debt.payment_history = [];
-                        }
-                        debt.payment_history.push(paymentData);
-                        
-                        // Reset form en sluit modal
-                        this.reset();
-                        hideModal('addPaymentModal');
-                        
-                        // Update UI
-                        updatePaymentHistory();
-                        
-                        showNotification('Betaling is succesvol toegevoegd', 'success');
-                    })
-                    .catch(error => {
-                        console.error('Error adding payment:', error);
-                        showNotification('Fout bij toevoegen betaling: ' + error.message, 'error');
-                    });
-                    */
-                });
-            }
-            
-            // Contact form submit
-            const contactForm = document.getElementById('addContactForm');
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const debtId = parseInt(document.getElementById('contactDebtId').value);
-                    const debt = debts.find(d => d.id === debtId);
-                    
-                    if (!debt) {
-                        showNotification('Schuld niet gevonden', 'error');
-                        return;
-                    }
-                    
-                    const formData = new FormData(this);
-                    const contactData = {
-                        date: formData.get('date'),
-                        contact_type: formData.get('contact_type'),
-                        notes: formData.get('notes'),
-                        outcome: formData.get('outcome'),
-                        follow_up_date: formData.get('follow_up_date') || null
-                    };
-                    
-                    console.log('Contact data:', contactData);
-                    
-                    // Simuleer succesvolle toevoeging
-                    if (!debt.contact_history) {
-                        debt.contact_history = [];
-                    }
-                    debt.contact_history.push({
-                        ...contactData,
-                        id: Date.now()
-                    });
-                    
-                    // Reset form en sluit modal
-                    this.reset();
-                    hideModal('addContactModal');
-                    
-                    // Update UI
-                    updateContactHistory();
-                    
-                    showNotification('Contact is succesvol toegevoegd', 'success');
-                    
-                    /* Echte API call (uitgecommentarieerd voor testen)
-                    // API call om contact toe te voegen
-                    fetch(`${API_URL}/debts/${debtId}/contacts/`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(contactData)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Toevoegen contact mislukt');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        // Voeg toe aan lokale data
-                        if (!debt.contact_history) {
-                            debt.contact_history = [];
-                        }
-                        debt.contact_history.push(contactData);
-                        
-                        // Reset form en sluit modal
-                        this.reset();
-                        hideModal('addContactModal');
-                        
-                        // Update UI
-                        updateContactHistory();
-                        
-                        showNotification('Contact is succesvol toegevoegd', 'success');
-                    })
-                    .catch(error => {
-                        console.error('Error adding contact:', error);
-                        showNotification('Fout bij toevoegen contact: ' + error.message, 'error');
-                    });
-                    */
-                });
+                clientForm.addEventListener('submit', handleClientFormSubmit);
             }
             
             // Debt form submit
             const debtForm = document.getElementById('addDebtForm');
             if (debtForm) {
-                debtForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    handleDebtFormSubmit(e);
-                });
-                
-                // Ook de saveDebtButton koppelen
-                const saveDebtButton = document.getElementById('saveDebtButton');
-                if (saveDebtButton) {
-                    saveDebtButton.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        handleDebtFormSubmit(e);
-                    });
-                }
+                debtForm.addEventListener('submit', handleDebtFormSubmit);
+            }
+            
+            // Payment form submit
+            const paymentForm = document.getElementById('addPaymentForm');
+            if (paymentForm) {
+                paymentForm.addEventListener('submit', handlePaymentFormSubmit);
+            }
+            
+            // Contact form submit
+            const contactForm = document.getElementById('addContactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', handleContactFormSubmit);
             }
             
             console.log('Form submit handlers set up');
