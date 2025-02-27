@@ -1477,37 +1477,143 @@
         <div class="modal-content">
             <span class="close" onclick="hideModal('addClientModal')">&times;</span>
             <h2>Nieuwe Cliënt Toevoegen</h2>
-            <form id="addClientForm" class="simplified-form">
-                <div class="form-group">
-                    <label>Naam</label>
-                    <input type="text" name="name" placeholder="Naam van de cliënt">
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" name="email" placeholder="email@voorbeeld.nl">
-                </div>
-                <div class="form-group">
-                    <label>Telefoon</label>
-                    <input type="tel" name="phone" placeholder="06-12345678">
-                </div>
-                <div class="form-group">
-                    <label>Adres</label>
-                    <input type="text" name="address" placeholder="Straatnaam en huisnummer">
-                </div>
-                <div class="form-row">
-                    <div class="form-group half">
-                        <label>Postcode</label>
-                        <input type="text" name="postal_code" placeholder="1234 AB">
+            <form id="addClientForm" class="multi-step-form">
+                <!-- Stap 1: Persoonlijke gegevens -->
+                <div class="form-step" id="step1">
+                    <h3>Stap 1: Persoonlijke Gegevens</h3>
+                    <div class="form-group">
+                        <label>Naam</label>
+                        <input type="text" name="name" placeholder="Naam van de cliënt">
                     </div>
-                    <div class="form-group half">
-                        <label>Stad</label>
-                        <input type="text" name="city" placeholder="Amsterdam">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="email@voorbeeld.nl">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefoon</label>
+                        <input type="tel" name="phone" placeholder="06-12345678">
+                    </div>
+                    <div class="form-group">
+                        <label>Adres</label>
+                        <input type="text" name="address" placeholder="Straatnaam en huisnummer">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label>Postcode</label>
+                            <input type="text" name="postal_code" placeholder="1234 AB">
+                        </div>
+                        <div class="form-group half">
+                            <label>Stad</label>
+                            <input type="text" name="city" placeholder="Amsterdam">
+                        </div>
+                    </div>
+                    <button type="button" class="button primary" onclick="nextStep(2)">Volgende</button>
+                </div>
+
+                <!-- Stap 2: Inkomsten -->
+                <div class="form-step" id="step2" style="display: none;">
+                    <h3>Stap 2: Inkomsten</h3>
+                    <div id="incomeItems">
+                        <div class="income-item">
+                            <div class="form-group">
+                                <label>Omschrijving</label>
+                                <input type="text" name="income_description[]" placeholder="bijv. Salaris">
+                            </div>
+                            <div class="form-group">
+                                <label>Bedrag</label>
+                                <input type="number" name="income_amount[]" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>Frequentie</label>
+                                <select name="income_frequency[]">
+                                    <option value="monthly">Maandelijks</option>
+                                    <option value="weekly">Wekelijks</option>
+                                    <option value="yearly">Jaarlijks</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="button secondary" onclick="addIncomeItem()">+ Inkomstenbron Toevoegen</button>
+                    <div class="button-group">
+                        <button type="button" class="button secondary" onclick="prevStep(1)">Vorige</button>
+                        <button type="button" class="button primary" onclick="nextStep(3)">Volgende</button>
                     </div>
                 </div>
-                
-                <div class="form-actions">
-                    <button type="button" class="button secondary" onclick="hideModal('addClientModal')">Annuleren</button>
-                    <button type="submit" class="button primary">Cliënt Opslaan</button>
+
+                <!-- Stap 3: Uitgaven -->
+                <div class="form-step" id="step3" style="display: none;">
+                    <h3>Stap 3: Uitgaven</h3>
+                    <div id="expenseItems">
+                        <div class="expense-item">
+                            <div class="form-group">
+                                <label>Categorie</label>
+                                <select name="expense_category[]">
+                                    <option value="vaste_lasten">Vaste Lasten</option>
+                                    <option value="boodschappen">Boodschappen</option>
+                                    <option value="verzekeringen">Verzekeringen</option>
+                                    <option value="vervoer">Vervoer</option>
+                                    <option value="overig">Overig</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Omschrijving</label>
+                                <input type="text" name="expense_description[]" placeholder="bijv. Huur">
+                            </div>
+                            <div class="form-group">
+                                <label>Bedrag</label>
+                                <input type="number" name="expense_amount[]" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>Frequentie</label>
+                                <select name="expense_frequency[]">
+                                    <option value="monthly">Maandelijks</option>
+                                    <option value="weekly">Wekelijks</option>
+                                    <option value="yearly">Jaarlijks</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="button secondary" onclick="addExpenseItem()">+ Uitgave Toevoegen</button>
+                    <div class="button-group">
+                        <button type="button" class="button secondary" onclick="prevStep(2)">Vorige</button>
+                        <button type="button" class="button primary" onclick="nextStep(4)">Volgende</button>
+                    </div>
+                </div>
+
+                <!-- Stap 4: Schulden -->
+                <div class="form-step" id="step4" style="display: none;">
+                    <h3>Stap 4: Bestaande Schulden</h3>
+                    <div id="debtItems">
+                        <div class="debt-item">
+                            <div class="form-group">
+                                <label>Schuldeiser</label>
+                                <input type="text" name="debt_creditor[]" placeholder="Naam schuldeiser">
+                            </div>
+                            <div class="form-group">
+                                <label>Bedrag (€)</label>
+                                <input type="number" name="debt_amount[]" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Rente percentage</label>
+                                <input type="number" name="debt_interest[]" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label>Start datum</label>
+                                <input type="date" name="debt_start_date[]">
+                            </div>
+                            <div class="form-group">
+                                <label>Eind datum</label>
+                                <input type="date" name="debt_end_date[]">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="button secondary" onclick="addDebtItem()">+ Schuld Toevoegen</button>
+                    
+                    <div class="form-navigation">
+                        <button type="button" class="button secondary" onclick="prevStep(3)">Terug</button>
+                        <button type="button" class="button primary" id="finalSaveButton">Opslaan</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -1560,7 +1666,7 @@
                 </div>
                 <div class="button-group">
                     <button type="button" class="button secondary" onclick="hideModal('addDebtModal')">Annuleren</button>
-                    <button type="button" class="button primary" id="saveDebtButton" onclick="handleDebtFormSubmit(event)">Opslaan</button>
+                    <button type="button" class="button primary" id="saveDebtButton">Opslaan</button>
                 </div>
             </form>
         </div>
@@ -2119,7 +2225,7 @@
                         <option value="yearly">Jaarlijks</option>
                     </select>
                 </div>
-                <button type="button" class="button secondary" onclick="this.parentNode.remove()">Verwijderen</button>
+                <button type="button" class="button icon-button remove-button" onclick="removeItem(this)">×</button>
             `;
             container.appendChild(newItem);
         }
@@ -2155,7 +2261,7 @@
                         <option value="yearly">Jaarlijks</option>
                     </select>
                 </div>
-                <button type="button" class="button secondary" onclick="this.parentNode.remove()">Verwijderen</button>
+                <button type="button" class="button icon-button remove-button" onclick="removeItem(this)">×</button>
             `;
             container.appendChild(newItem);
         }
@@ -2185,39 +2291,45 @@
                     <label>Eind datum</label>
                     <input type="date" name="debt_end_date[]">
                 </div>
-                <button type="button" class="button secondary" onclick="this.parentNode.remove()">Verwijderen</button>
+                <button type="button" class="button icon-button remove-button" onclick="removeItem(this)">×</button>
             `;
             container.appendChild(newItem);
         }
 
-        // Direct saveClientData function for the form saving
+        // Remove an item
+        function removeItem(button) {
+            button.parentElement.remove();
+        }
+        
+        // Save client data from multi-step form
         async function saveClientData() {
-            console.log('saveClientData called');
-            
+            console.log("saveClientData called");
             const form = document.getElementById('addClientForm');
             const formData = new FormData(form);
             
-            // Verzamel client data
+            // Log all form data
+            console.log("Form data entries:");
+            for(let pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+            
+            // Basic client info
             const clientData = {
-                first_name: formData.get('first_name') || 'Onbekende cliënt',
-                last_name: formData.get('last_name') || '',
+                id: generateId(),
+                name: formData.get('name') || 'Onbekende cliënt',
                 email: formData.get('email') || '',
                 phone: formData.get('phone') || '',
                 address: formData.get('address') || '',
                 postal_code: formData.get('postal_code') || '',
                 city: formData.get('city') || '',
-                date_of_birth: formData.get('date_of_birth') || '',
-                bsn: formData.get('bsn') || '',
-                marital_status: formData.get('marital_status') || '',
-                household_size: parseInt(formData.get('household_size')) || 1,
                 income: [],
                 expenses: [],
                 debts: []
             };
             
-            // Geen validatie meer nodig, we gebruiken standaardwaarden
+            console.log("Created client base data:", clientData);
             
-            // Income items
+            // Process income items
             const incomeDescriptions = formData.getAll('income_description[]');
             const incomeAmounts = formData.getAll('income_amount[]');
             const incomeFrequencies = formData.getAll('income_frequency[]');
@@ -2225,15 +2337,14 @@
             for (let i = 0; i < incomeDescriptions.length; i++) {
                 if (incomeDescriptions[i] && incomeAmounts[i]) {
                     clientData.income.push({
-                        category: 'inkomen',
-                        description: incomeDescriptions[i].trim(),
-                        amount: parseFloat(incomeAmounts[i]),
-                        frequency: incomeFrequencies[i]
+                        description: incomeDescriptions[i],
+                        amount: parseFloat(incomeAmounts[i]) || 0,
+                        frequency: incomeFrequencies[i] || 'monthly'
                     });
                 }
             }
-
-            // Expense items
+            
+            // Process expense items
             const expenseCategories = formData.getAll('expense_category[]');
             const expenseDescriptions = formData.getAll('expense_description[]');
             const expenseAmounts = formData.getAll('expense_amount[]');
@@ -2242,63 +2353,58 @@
             for (let i = 0; i < expenseDescriptions.length; i++) {
                 if (expenseDescriptions[i] && expenseAmounts[i]) {
                     clientData.expenses.push({
-                        category: expenseCategories[i],
-                        description: expenseDescriptions[i].trim(),
-                        amount: parseFloat(expenseAmounts[i]),
-                        frequency: expenseFrequencies[i]
+                        category: expenseCategories[i] || 'overig',
+                        description: expenseDescriptions[i],
+                        amount: parseFloat(expenseAmounts[i]) || 0,
+                        frequency: expenseFrequencies[i] || 'monthly'
                     });
                 }
             }
-
-            // Debts
-            const debtCreditor = formData.getAll('debt_creditor[]');
-            const debtAmount = formData.getAll('debt_amount[]');
-            const debtInterest = formData.getAll('debt_interest[]');
-            const debtStartDate = formData.getAll('debt_start_date[]');
-            const debtEndDate = formData.getAll('debt_end_date[]');
-
-            for (let i = 0; i < debtCreditor.length; i++) {
-                if (debtCreditor[i] && debtAmount[i]) {
-                    clientData.debts.push({
-                        creditor: debtCreditor[i],
-                        amount: parseFloat(debtAmount[i]),
-                        interest_rate: debtInterest[i] ? parseFloat(debtInterest[i]) : null,
-                        start_date: debtStartDate[i] || null,
-                        end_date: debtEndDate[i] || null
-                    });
+            
+            // Add client to global array
+            clients.push(clientData);
+            console.log("Added client to clients array:", clientData);
+            console.log("Updated clients array:", clients);
+            
+            // Process debt items and add them separately
+            const debtCreditors = formData.getAll('debt_creditor[]');
+            const debtAmounts = formData.getAll('debt_amount[]');
+            const debtInterests = formData.getAll('debt_interest[]');
+            const debtStartDates = formData.getAll('debt_start_date[]');
+            const debtEndDates = formData.getAll('debt_end_date[]');
+            
+            for (let i = 0; i < debtCreditors.length; i++) {
+                if (debtCreditors[i] && debtAmounts[i]) {
+                    const debtData = {
+                        id: generateId(),
+                        client_id: clientData.id,
+                        creditor: debtCreditors[i],
+                        amount: parseFloat(debtAmounts[i]) || 0,
+                        interest_rate: parseFloat(debtInterests[i]) || 0,
+                        start_date: debtStartDates[i] || '',
+                        end_date: debtEndDates[i] || '',
+                        status: 'active'
+                    };
+                    
+                    debts.push(debtData);
+                    console.log("Added debt:", debtData);
                 }
             }
-
-            console.log('Sending to API:', JSON.stringify(clientData, null, 2));
             
-            // API call to add client
-            const clientResponse = await fetch(`${API_URL}/clients/`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(clientData),
-            });
+            console.log("Updated debts array:", debts);
             
-            if (!clientResponse.ok) {
-                const errorData = await clientResponse.text();
-                throw new Error(`API error: ${errorData}`);
-            }
-            
-            const newClient = await clientResponse.json();
-            console.log('New client created:', newClient);
+            // Update UI
+            updateClientTable(clients);
+            updateDebtTable(debts);
+            updateClientSelect();
+            updateStats();
+            updateChart();
             
             // Reset form and hide modal
             form.reset();
             hideModal('addClientModal');
             
-            // Reset to step 1 for next time
-            document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
-            document.getElementById('step1').style.display = 'block';
-            
-            // Update data
-            await fetchData();
-            
-            // Show confirmation
-            showNotification(`Cliënt ${newClient.name} is toegevoegd!`, 'success');
+            showNotification('Cliënt succesvol toegevoegd', 'success');
         }
         
         // Fetch initial data
@@ -3166,54 +3272,73 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Document loaded - Initializing app');
             
-            // Verwijder alle onclick attributen van knoppen en vervang ze door event listeners
-            document.querySelectorAll('button[onclick]').forEach(button => {
-                const onclickAttr = button.getAttribute('onclick');
-                if (onclickAttr) {
-                    // Bewaar de functie en parameters
-                    const match = onclickAttr.match(/(\w+)\((?:'([^']+)'|event)?\)/);
-                    if (match) {
-                        const funcName = match[1];
-                        const param = match[2];
-                        
-                        console.log(`Adding event listener for ${funcName} with param ${param}`);
-                        
-                        // Voeg een event listener toe
-                        button.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            console.log(`Button clicked, calling ${funcName}(${param})`);
-                            
-                            if (funcName === 'showModal') {
-                                showModal(param);
-                            } else if (funcName === 'hideModal') {
-                                hideModal(param);
-                            } else if (funcName === 'nextStep') {
-                                nextStep(param);
-                            } else if (funcName === 'prevStep') {
-                                prevStep(param);
-                            } else if (funcName === 'addIncomeItem') {
-                                addIncomeItem();
-                            } else if (funcName === 'addExpenseItem') {
-                                addExpenseItem();
-                            } else if (funcName === 'addDebtItem') {
-                                addDebtItem();
-                            } else if (funcName === 'saveClientData') {
-                                saveClientData();
-                            } else if (funcName === 'showDebtTab') {
-                                showDebtTab(param);
-                            } else if (funcName === 'showAddPaymentModal') {
-                                showAddPaymentModal();
-                            } else if (funcName === 'showAddContactModal') {
-                                showAddContactModal();
-                            }
-                        });
-                    }
-                }
-            });
+            // Eerst data laden
+            fetchData();
             
-            // Initialiseer de app
-            initializeApp();
+            // Wacht even en setup event listeners
+            setTimeout(function() {
+                console.log('Setting up event listeners');
+                setupEventListeners();
+                setupModalEventListeners();
+                updateUI();
+            }, 500);
         });
+        
+        function updateUI() {
+            console.log('Updating UI');
+            updateClientTable(clients);
+            updateDebtTable(debts);
+            updateClientSelect();
+            updateStats();
+            updateChart();
+        }
+    </script>
+    
+    <script>
+        // Function to set up event listeners
+        function setupEventListeners() {
+            console.log('Setting up event listeners');
+            
+            // Client form submit button
+            const finalSaveButton = document.getElementById('finalSaveButton');
+            if (finalSaveButton) {
+                finalSaveButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Final save button clicked');
+                    saveClientData();
+                });
+            } else {
+                console.error('Final save button not found');
+            }
+            
+            // Debt form submit button
+            const saveDebtButton = document.getElementById('saveDebtButton');
+            if (saveDebtButton) {
+                saveDebtButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    handleDebtFormSubmit(e);
+                });
+            }
+            
+            // Client form manual submit handling
+            const addClientForm = document.getElementById('addClientForm');
+            if (addClientForm) {
+                addClientForm.addEventListener('submit', function(e) {
+                    e.preventDefault(); 
+                    console.log('Client form submitted');
+                    saveClientData();
+                });
+            }
+            
+            // Debt form manual submit handling
+            const addDebtForm = document.getElementById('addDebtForm');
+            if (addDebtForm) {
+                addDebtForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    handleDebtFormSubmit(e);
+                });
+            }
+        }
     </script>
 </body>
 </html>
