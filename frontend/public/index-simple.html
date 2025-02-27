@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinFit Schuldbeheer</title>
+    <link href="https://cdn.jsdelivr.net/npm/@mui/material@5.14.20/dist/css/material.min.css" rel="stylesheet">
+    <style>
+        body { margin: 0; font-family: 'Roboto', sans-serif; }
+        .container { padding: 20px; }
+        .card { 
+            background: white;
+            border-radius: 4px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: #1976d2;
+            color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>FinFit Schuldbeheer Assistent</h1>
+    </div>
+    
+    <div class="container">
+        <div class="card">
+            <h2>Welkom bij FinFit</h2>
+            <p>Beheer uw schulden op een overzichtelijke manier</p>
+        </div>
+
+        <div class="stats-container">
+            <div class="card">
+                <h3>Totaal Aantal Cliënten</h3>
+                <h2>1</h2>
+            </div>
+            <div class="card">
+                <h3>Totaal Schuldbedrag</h3>
+                <h2>€5.000</h2>
+            </div>
+            <div class="card">
+                <h3>Openstaande Betalingen</h3>
+                <h2>1</h2>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Recente Activiteit</h3>
+            <ul>
+                <li>Nieuwe cliënt toegevoegd: John Doe</li>
+                <li>Nieuwe schuld geregistreerd: €5.000</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
