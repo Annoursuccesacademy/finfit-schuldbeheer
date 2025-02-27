@@ -1474,143 +1474,74 @@
         <div class="modal-content">
             <span class="close" onclick="hideModal('addClientModal')">&times;</span>
             <h2>Nieuwe Cliënt Toevoegen</h2>
-            <form id="addClientForm" class="multi-step-form">
-                <!-- Stap 1: Persoonlijke gegevens -->
-                <div class="form-step" id="step1">
-                    <h3>Stap 1: Persoonlijke Gegevens</h3>
-                    <div class="form-group">
-                        <label>Naam</label>
-                        <input type="text" name="name" placeholder="Naam van de cliënt">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="email" placeholder="email@voorbeeld.nl">
-                    </div>
-                    <div class="form-group">
-                        <label>Telefoon</label>
-                        <input type="tel" name="phone" placeholder="06-12345678">
-                    </div>
-                    <div class="form-group">
-                        <label>Adres</label>
-                        <input type="text" name="address" placeholder="Straatnaam en huisnummer">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group half">
-                            <label>Postcode</label>
-                            <input type="text" name="postal_code" placeholder="1234 AB">
-                        </div>
-                        <div class="form-group half">
-                            <label>Stad</label>
-                            <input type="text" name="city" placeholder="Amsterdam">
-                        </div>
-                    </div>
-                    <button type="button" class="button primary" onclick="nextStep(2)">Volgende</button>
+            <form id="addClientForm">
+                <h3>Persoonlijke Gegevens</h3>
+                <div class="form-group">
+                    <label>Naam</label>
+                    <input type="text" name="name" placeholder="Naam van de cliënt" required>
                 </div>
-
-                <!-- Stap 2: Inkomsten -->
-                <div class="form-step" id="step2" style="display: none;">
-                    <h3>Stap 2: Inkomsten</h3>
-                    <div id="incomeItems">
-                        <div class="income-item">
-                            <div class="form-group">
-                                <label>Omschrijving</label>
-                                <input type="text" name="income_description[]" placeholder="bijv. Salaris">
-                            </div>
-                            <div class="form-group">
-                                <label>Bedrag</label>
-                                <input type="number" name="income_amount[]" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label>Frequentie</label>
-                                <select name="income_frequency[]">
-                                    <option value="monthly">Maandelijks</option>
-                                    <option value="weekly">Wekelijks</option>
-                                    <option value="yearly">Jaarlijks</option>
-                                </select>
-                            </div>
-                        </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="email@voorbeeld.nl">
+                </div>
+                <div class="form-group">
+                    <label>Telefoon</label>
+                    <input type="tel" name="phone" placeholder="06-12345678">
+                </div>
+                <div class="form-group">
+                    <label>Adres</label>
+                    <input type="text" name="address" placeholder="Straatnaam en huisnummer">
+                </div>
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>Postcode</label>
+                        <input type="text" name="postal_code" placeholder="1234 AB">
                     </div>
-                    <button type="button" class="button secondary" onclick="addIncomeItem()">+ Inkomstenbron Toevoegen</button>
-                    <div class="button-group">
-                        <button type="button" class="button secondary" onclick="prevStep(1)">Vorige</button>
-                        <button type="button" class="button primary" onclick="nextStep(3)">Volgende</button>
+                    <div class="form-group half">
+                        <label>Stad</label>
+                        <input type="text" name="city" placeholder="Amsterdam">
                     </div>
                 </div>
-
-                <!-- Stap 3: Uitgaven -->
-                <div class="form-step" id="step3" style="display: none;">
-                    <h3>Stap 3: Uitgaven</h3>
-                    <div id="expenseItems">
-                        <div class="expense-item">
-                            <div class="form-group">
-                                <label>Categorie</label>
-                                <select name="expense_category[]">
-                                    <option value="vaste_lasten">Vaste Lasten</option>
-                                    <option value="boodschappen">Boodschappen</option>
-                                    <option value="verzekeringen">Verzekeringen</option>
-                                    <option value="vervoer">Vervoer</option>
-                                    <option value="overig">Overig</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Omschrijving</label>
-                                <input type="text" name="expense_description[]" placeholder="bijv. Huur">
-                            </div>
-                            <div class="form-group">
-                                <label>Bedrag</label>
-                                <input type="number" name="expense_amount[]" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label>Frequentie</label>
-                                <select name="expense_frequency[]">
-                                    <option value="monthly">Maandelijks</option>
-                                    <option value="weekly">Wekelijks</option>
-                                    <option value="yearly">Jaarlijks</option>
-                                </select>
-                            </div>
-                        </div>
+                
+                <h3>Inkomsten</h3>
+                <div class="income-item">
+                    <div class="form-group">
+                        <label>Omschrijving</label>
+                        <input type="text" name="income_description[]" placeholder="bijv. Salaris">
                     </div>
-                    <button type="button" class="button secondary" onclick="addExpenseItem()">+ Uitgave Toevoegen</button>
-                    <div class="button-group">
-                        <button type="button" class="button secondary" onclick="prevStep(2)">Vorige</button>
-                        <button type="button" class="button primary" onclick="nextStep(4)">Volgende</button>
+                    <div class="form-group">
+                        <label>Bedrag</label>
+                        <input type="number" name="income_amount[]" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Frequentie</label>
+                        <select name="income_frequency[]">
+                            <option value="monthly">Maandelijks</option>
+                            <option value="weekly">Wekelijks</option>
+                            <option value="yearly">Jaarlijks</option>
+                        </select>
                     </div>
                 </div>
-
-                <!-- Stap 4: Schulden -->
-                <div class="form-step" id="step4" style="display: none;">
-                    <h3>Stap 4: Bestaande Schulden</h3>
-                    <div id="debtItems">
-                        <div class="debt-item">
-                            <div class="form-group">
-                                <label>Schuldeiser</label>
-                                <input type="text" name="debt_creditor[]" placeholder="Naam schuldeiser">
-                            </div>
-                            <div class="form-group">
-                                <label>Bedrag (€)</label>
-                                <input type="number" name="debt_amount[]" step="0.01" placeholder="0.00">
-                            </div>
-                            <div class="form-group">
-                                <label>Rente percentage</label>
-                                <input type="number" name="debt_interest[]" step="0.1">
-                            </div>
-                            <div class="form-group">
-                                <label>Start datum</label>
-                                <input type="date" name="debt_start_date[]">
-                            </div>
-                            <div class="form-group">
-                                <label>Eind datum</label>
-                                <input type="date" name="debt_end_date[]">
-                            </div>
-                        </div>
+                
+                <h3>Schulden</h3>
+                <div class="debt-item">
+                    <div class="form-group">
+                        <label>Schuldeiser</label>
+                        <input type="text" name="debt_creditor[]" placeholder="Naam schuldeiser">
                     </div>
-                    
-                    <button type="button" class="button secondary" onclick="addDebtItem()">+ Schuld Toevoegen</button>
-                    
-                    <div class="form-navigation">
-                        <button type="button" class="button secondary" onclick="prevStep(3)">Terug</button>
-                        <button type="button" class="button primary" id="finalSaveButton">Opslaan</button>
+                    <div class="form-group">
+                        <label>Bedrag (€)</label>
+                        <input type="number" name="debt_amount[]" step="0.01" placeholder="0.00">
                     </div>
+                    <div class="form-group">
+                        <label>Rente percentage</label>
+                        <input type="number" name="debt_interest[]" step="0.1">
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="button secondary" onclick="hideModal('addClientModal')">Annuleren</button>
+                    <button type="button" class="button primary" id="saveClientButton">Opslaan</button>
                 </div>
             </form>
         </div>
@@ -2017,7 +1948,6 @@
             if (e) e.preventDefault();
             
             console.log('handleDebtFormSubmit called');
-            
             const form = document.getElementById('addDebtForm');
             if (!form) {
                 console.error('Debt form not found');
@@ -2343,254 +2273,6 @@
             const expenseAmounts = formData.getAll('expense_amount[]');
             const expenseFrequencies = formData.getAll('expense_frequency[]');
 
-            for (let i = 0; i < expenseDescriptions.length; i++) {
-                if (expenseDescriptions[i] && expenseAmounts[i]) {
-                    clientData.expenses.push({
-                        category: expenseCategories[i] || 'overig',
-                        description: expenseDescriptions[i],
-                        amount: parseFloat(expenseAmounts[i]) || 0,
-                        frequency: expenseFrequencies[i] || 'monthly'
-                    });
-                }
-            }
-            
-            // Process debt items
-            const debtCreditors = formData.getAll('debt_creditor[]');
-            const debtAmounts = formData.getAll('debt_amount[]');
-            const debtInterests = formData.getAll('debt_interest[]');
-            const debtStartDates = formData.getAll('debt_start_date[]');
-            const debtEndDates = formData.getAll('debt_end_date[]');
-            
-            // Add client to global array
-            clients.push(clientData);
-            console.log("Added client to clients array:", clientData);
-            console.log("Updated clients array:", clients);
-            
-            // Add debts as separate items
-            for (let i = 0; i < debtCreditors.length; i++) {
-                if (debtCreditors[i] && debtAmounts[i]) {
-                    const debtData = {
-                        id: generateId(),
-                        client_id: clientData.id,
-                        creditor: debtCreditors[i],
-                        amount: parseFloat(debtAmounts[i]) || 0,
-                        interest_rate: parseFloat(debtInterests[i]) || 0,
-                        start_date: debtStartDates[i] || '',
-                        end_date: debtEndDates[i] || '',
-                        status: 'active'
-                    };
-                    
-                    debts.push(debtData);
-                    console.log("Added debt:", debtData);
-                }
-            }
-            
-            console.log("Updated debts array:", debts);
-            
-            // Update UI
-            updateClientTable(clients);
-            updateDebtTable(debts);
-            updateClientSelect();
-            updateStats();
-            updateChart();
-            
-            // Reset form and hide modal
-            form.reset();
-            hideModal('addClientModal');
-            
-            // Reset to step 1 for next time
-            document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
-            document.getElementById('step1').style.display = 'block';
-            
-            // Reset step indicators
-            document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
-            document.querySelector('.step-indicator[data-step="1"]').classList.add('active');
-            
-            showNotification('Cliënt succesvol toegevoegd', 'success');
-        }
-        
-        // Client formulier navigatie en verwerking
-        function initializeClientForm() {
-            console.log('Initializing client form');
-            
-            // Stap 1 -> Stap 2
-            document.getElementById('toStep2Button').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('.form-step').forEach(step => step.style.display = 'none');
-                document.getElementById('step2').style.display = 'block';
-                
-                // Update stap indicatoren
-                document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
-                document.querySelector('.step-indicator[data-step="2"]').classList.add('active');
-            });
-            
-            // Stap 2 -> Stap 1
-            document.getElementById('backToStep1Button').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('.form-step').forEach(step => step.style.display = 'none');
-                document.getElementById('step1').style.display = 'block';
-                
-                // Update stap indicatoren
-                document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
-                document.querySelector('.step-indicator[data-step="1"]').classList.add('active');
-            });
-            
-            // Stap 2 -> Stap 3
-            document.getElementById('toStep3Button').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('.form-step').forEach(step => step.style.display = 'none');
-                document.getElementById('step3').style.display = 'block';
-                
-                // Update stap indicatoren
-                document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
-                document.querySelector('.step-indicator[data-step="3"]').classList.add('active');
-            });
-            
-            // Stap 3 -> Stap 2
-            document.getElementById('backToStep2Button').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('.form-step').forEach(step => step.style.display = 'none');
-                document.getElementById('step2').style.display = 'block';
-                
-                // Update stap indicatoren
-                document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
-                document.querySelector('.step-indicator[data-step="2"]').classList.add('active');
-            });
-            
-            // Stap 3 -> Stap 4
-            document.getElementById('toStep4Button').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('.form-step').forEach(step => step.style.display = 'none');
-                document.getElementById('step4').style.display = 'block';
-                
-                // Update stap indicatoren
-                document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
-                document.querySelector('.step-indicator[data-step="4"]').classList.add('active');
-            });
-            
-            // Stap 4 -> Stap 3
-            document.getElementById('backToStep3Button').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('.form-step').forEach(step => step.style.display = 'none');
-                document.getElementById('step3').style.display = 'block';
-                
-                // Update stap indicatoren
-                document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
-                document.querySelector('.step-indicator[data-step="3"]').classList.add('active');
-            });
-            
-            // Inkomsten toevoegen
-            document.getElementById('addIncomeButton').addEventListener('click', function(e) {
-                e.preventDefault();
-                addIncomeItem();
-            });
-            
-            // Uitgaven toevoegen
-            document.getElementById('addExpenseButton').addEventListener('click', function(e) {
-                e.preventDefault();
-                addExpenseItem();
-            });
-            
-            // Schulden toevoegen
-            document.getElementById('addDebtItemButton').addEventListener('click', function(e) {
-                e.preventDefault();
-                addDebtItemInForm();
-            });
-            
-            // Opslaan
-            document.getElementById('saveClientDataButton').addEventListener('click', function(e) {
-                e.preventDefault();
-                saveClientData();
-            });
-            
-            // Form submit
-            document.getElementById('addClientForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                saveClientData();
-            });
-        }
-        
-        // Schuld item toevoegen in het clientformulier
-        function addDebtItemInForm() {
-            console.log('Adding debt item in form');
-            const container = document.getElementById('debtItems');
-            const newItem = document.createElement('div');
-            newItem.className = 'debt-item';
-            newItem.innerHTML = `
-                <div class="form-group">
-                    <label>Schuldeiser</label>
-                    <input type="text" name="debt_creditor[]" placeholder="Naam schuldeiser">
-                </div>
-                <div class="form-group">
-                    <label>Bedrag (€)</label>
-                    <input type="number" name="debt_amount[]" step="0.01" placeholder="0.00">
-                </div>
-                <div class="form-group">
-                    <label>Rente percentage</label>
-                    <input type="number" name="debt_interest[]" step="0.1">
-                </div>
-                <div class="form-group">
-                    <label>Start datum</label>
-                    <input type="date" name="debt_start_date[]">
-                </div>
-                <div class="form-group">
-                    <label>Eind datum</label>
-                    <input type="date" name="debt_end_date[]">
-                </div>
-                <button type="button" class="button icon-button remove-button" onclick="this.parentElement.remove()">×</button>
-            `;
-            container.appendChild(newItem);
-        }
-        
-        // Opslaan van client data
-        function saveClientData() {
-            console.log("saveClientData called");
-            const form = document.getElementById('addClientForm');
-            const formData = new FormData(form);
-            
-            // Log all form data
-            console.log("Form data entries:");
-            for(let pair of formData.entries()) {
-                console.log(pair[0] + ': ' + pair[1]);
-            }
-            
-            // Basic client info
-            const clientData = {
-                id: generateId(),
-                name: formData.get('name') || 'Onbekende cliënt',
-                email: formData.get('email') || '',
-                phone: formData.get('phone') || '',
-                address: formData.get('address') || '',
-                postal_code: formData.get('postal_code') || '',
-                city: formData.get('city') || '',
-                income: [],
-                expenses: [],
-                debts: []
-            };
-            
-            console.log("Created client base data:", clientData);
-            
-            // Process income items
-            const incomeDescriptions = formData.getAll('income_description[]');
-            const incomeAmounts = formData.getAll('income_amount[]');
-            const incomeFrequencies = formData.getAll('income_frequency[]');
-            
-            for (let i = 0; i < incomeDescriptions.length; i++) {
-                if (incomeDescriptions[i] && incomeAmounts[i]) {
-                    clientData.income.push({
-                        description: incomeDescriptions[i],
-                        amount: parseFloat(incomeAmounts[i]) || 0,
-                        frequency: incomeFrequencies[i] || 'monthly'
-                    });
-                }
-            }
-            
-            // Process expense items
-            const expenseCategories = formData.getAll('expense_category[]');
-            const expenseDescriptions = formData.getAll('expense_description[]');
-            const expenseAmounts = formData.getAll('expense_amount[]');
-            const expenseFrequencies = formData.getAll('expense_frequency[]');
-            
             for (let i = 0; i < expenseDescriptions.length; i++) {
                 if (expenseDescriptions[i] && expenseAmounts[i]) {
                     clientData.expenses.push({
