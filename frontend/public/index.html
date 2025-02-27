@@ -187,9 +187,6 @@
             cursor: pointer;
             font-weight: 600;
             transition: background-color 0.2s;
-            text-decoration: none;
-            font-size: 14px;
-            min-height: 36px;
         }
         
         .button:hover {
@@ -1627,17 +1624,17 @@
                 <h3>Nieuwe Schuld Toevoegen</h3>
                 <div class="form-group">
                     <label>Cliënt</label>
-                    <select name="client_id" id="debtClientId">
+                    <select name="client_id" id="debtClientId" required>
                         <!-- Opties worden dynamisch ingevuld -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Schuldeiser</label>
-                    <input type="text" name="creditor">
+                    <input type="text" name="creditor" required>
                 </div>
                 <div class="form-group">
                     <label>Bedrag</label>
-                    <input type="number" name="amount" step="0.01">
+                    <input type="number" name="amount" step="0.01" required>
                 </div>
                 <div class="form-group">
                     <label>Rente percentage</label>
@@ -2180,29 +2177,25 @@
         function nextStep(step) {
             console.log(`Moving to step ${step}`);
             document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
-            const nextStep = document.getElementById(`step${step}`);
-            if (nextStep) {
-                nextStep.style.display = 'block';
-                // Scroll to top of form
-                nextStep.scrollIntoView({ behavior: 'smooth' });
+            const nextStepElement = document.getElementById(`step${step}`);
+            if (nextStepElement) {
+                nextStepElement.style.display = 'block';
             } else {
                 console.error(`Step ${step} not found`);
             }
         }
-
+        
         function prevStep(step) {
             console.log(`Moving back to step ${step}`);
             document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
-            const prevStep = document.getElementById(`step${step}`);
-            if (prevStep) {
-                prevStep.style.display = 'block';
-                // Scroll to top of form
-                prevStep.scrollIntoView({ behavior: 'smooth' });
+            const prevStepElement = document.getElementById(`step${step}`);
+            if (prevStepElement) {
+                prevStepElement.style.display = 'block';
             } else {
                 console.error(`Step ${step} not found`);
             }
         }
-
+        
         // Dynamic form items
         function addIncomeItem() {
             const container = document.getElementById('incomeItems');
@@ -2229,7 +2222,7 @@
             `;
             container.appendChild(newItem);
         }
-
+        
         function addExpenseItem() {
             const container = document.getElementById('expenseItems');
             const newItem = document.createElement('div');
@@ -2265,7 +2258,7 @@
             `;
             container.appendChild(newItem);
         }
-
+        
         function addDebtItem() {
             const container = document.getElementById('debtItems');
             const newItem = document.createElement('div');
@@ -2291,11 +2284,11 @@
                     <label>Eind datum</label>
                     <input type="date" name="debt_end_date[]">
                 </div>
-                <button type="button" class="button icon-button remove-button" onclick="removeItem(this)">×</button>
+                <button type="button" class="button icon-button remove-button" onclick="this.parentElement.remove()">×</button>
             `;
             container.appendChild(newItem);
         }
-
+        
         // Remove an item
         function removeItem(button) {
             button.parentElement.remove();
@@ -2361,18 +2354,19 @@
                 }
             }
             
-            // Add client to global array
-            clients.push(clientData);
-            console.log("Added client to clients array:", clientData);
-            console.log("Updated clients array:", clients);
-            
-            // Process debt items and add them separately
+            // Process debt items
             const debtCreditors = formData.getAll('debt_creditor[]');
             const debtAmounts = formData.getAll('debt_amount[]');
             const debtInterests = formData.getAll('debt_interest[]');
             const debtStartDates = formData.getAll('debt_start_date[]');
             const debtEndDates = formData.getAll('debt_end_date[]');
             
+            // Add client to global array
+            clients.push(clientData);
+            console.log("Added client to clients array:", clientData);
+            console.log("Updated clients array:", clients);
+            
+            // Add debts as separate items
             for (let i = 0; i < debtCreditors.length; i++) {
                 if (debtCreditors[i] && debtAmounts[i]) {
                     const debtData = {
@@ -2403,6 +2397,262 @@
             // Reset form and hide modal
             form.reset();
             hideModal('addClientModal');
+            
+            // Reset to step 1 for next time
+            document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+            document.getElementById('step1').style.display = 'block';
+            
+            // Reset step indicators
+            document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
+            document.querySelector('.step-indicator[data-step="1"]').classList.add('active');
+            
+            showNotification('Cliënt succesvol toegevoegd', 'success');
+        }
+        
+        // Client formulier navigatie en verwerking
+        function initializeClientForm() {
+            console.log('Initializing client form');
+            
+            // Stap 1 -> Stap 2
+            document.getElementById('toStep2Button').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.form-step').forEach(step => step.style.display = 'none');
+                document.getElementById('step2').style.display = 'block';
+                
+                // Update stap indicatoren
+                document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
+                document.querySelector('.step-indicator[data-step="2"]').classList.add('active');
+            });
+            
+            // Stap 2 -> Stap 1
+            document.getElementById('backToStep1Button').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.form-step').forEach(step => step.style.display = 'none');
+                document.getElementById('step1').style.display = 'block';
+                
+                // Update stap indicatoren
+                document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
+                document.querySelector('.step-indicator[data-step="1"]').classList.add('active');
+            });
+            
+            // Stap 2 -> Stap 3
+            document.getElementById('toStep3Button').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.form-step').forEach(step => step.style.display = 'none');
+                document.getElementById('step3').style.display = 'block';
+                
+                // Update stap indicatoren
+                document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
+                document.querySelector('.step-indicator[data-step="3"]').classList.add('active');
+            });
+            
+            // Stap 3 -> Stap 2
+            document.getElementById('backToStep2Button').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.form-step').forEach(step => step.style.display = 'none');
+                document.getElementById('step2').style.display = 'block';
+                
+                // Update stap indicatoren
+                document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
+                document.querySelector('.step-indicator[data-step="2"]').classList.add('active');
+            });
+            
+            // Stap 3 -> Stap 4
+            document.getElementById('toStep4Button').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.form-step').forEach(step => step.style.display = 'none');
+                document.getElementById('step4').style.display = 'block';
+                
+                // Update stap indicatoren
+                document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
+                document.querySelector('.step-indicator[data-step="4"]').classList.add('active');
+            });
+            
+            // Stap 4 -> Stap 3
+            document.getElementById('backToStep3Button').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.form-step').forEach(step => step.style.display = 'none');
+                document.getElementById('step3').style.display = 'block';
+                
+                // Update stap indicatoren
+                document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
+                document.querySelector('.step-indicator[data-step="3"]').classList.add('active');
+            });
+            
+            // Inkomsten toevoegen
+            document.getElementById('addIncomeButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                addIncomeItem();
+            });
+            
+            // Uitgaven toevoegen
+            document.getElementById('addExpenseButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                addExpenseItem();
+            });
+            
+            // Schulden toevoegen
+            document.getElementById('addDebtItemButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                addDebtItemInForm();
+            });
+            
+            // Opslaan
+            document.getElementById('saveClientDataButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                saveClientData();
+            });
+            
+            // Form submit
+            document.getElementById('addClientForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveClientData();
+            });
+        }
+        
+        // Schuld item toevoegen in het clientformulier
+        function addDebtItemInForm() {
+            console.log('Adding debt item in form');
+            const container = document.getElementById('debtItems');
+            const newItem = document.createElement('div');
+            newItem.className = 'debt-item';
+            newItem.innerHTML = `
+                <div class="form-group">
+                    <label>Schuldeiser</label>
+                    <input type="text" name="debt_creditor[]" placeholder="Naam schuldeiser">
+                </div>
+                <div class="form-group">
+                    <label>Bedrag (€)</label>
+                    <input type="number" name="debt_amount[]" step="0.01" placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label>Rente percentage</label>
+                    <input type="number" name="debt_interest[]" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label>Start datum</label>
+                    <input type="date" name="debt_start_date[]">
+                </div>
+                <div class="form-group">
+                    <label>Eind datum</label>
+                    <input type="date" name="debt_end_date[]">
+                </div>
+                <button type="button" class="button icon-button remove-button" onclick="this.parentElement.remove()">×</button>
+            `;
+            container.appendChild(newItem);
+        }
+        
+        // Opslaan van client data
+        function saveClientData() {
+            console.log("saveClientData called");
+            const form = document.getElementById('addClientForm');
+            const formData = new FormData(form);
+            
+            // Log all form data
+            console.log("Form data entries:");
+            for(let pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+            
+            // Basic client info
+            const clientData = {
+                id: generateId(),
+                name: formData.get('name') || 'Onbekende cliënt',
+                email: formData.get('email') || '',
+                phone: formData.get('phone') || '',
+                address: formData.get('address') || '',
+                postal_code: formData.get('postal_code') || '',
+                city: formData.get('city') || '',
+                income: [],
+                expenses: [],
+                debts: []
+            };
+            
+            console.log("Created client base data:", clientData);
+            
+            // Process income items
+            const incomeDescriptions = formData.getAll('income_description[]');
+            const incomeAmounts = formData.getAll('income_amount[]');
+            const incomeFrequencies = formData.getAll('income_frequency[]');
+            
+            for (let i = 0; i < incomeDescriptions.length; i++) {
+                if (incomeDescriptions[i] && incomeAmounts[i]) {
+                    clientData.income.push({
+                        description: incomeDescriptions[i],
+                        amount: parseFloat(incomeAmounts[i]) || 0,
+                        frequency: incomeFrequencies[i] || 'monthly'
+                    });
+                }
+            }
+            
+            // Process expense items
+            const expenseCategories = formData.getAll('expense_category[]');
+            const expenseDescriptions = formData.getAll('expense_description[]');
+            const expenseAmounts = formData.getAll('expense_amount[]');
+            const expenseFrequencies = formData.getAll('expense_frequency[]');
+            
+            for (let i = 0; i < expenseDescriptions.length; i++) {
+                if (expenseDescriptions[i] && expenseAmounts[i]) {
+                    clientData.expenses.push({
+                        category: expenseCategories[i] || 'overig',
+                        description: expenseDescriptions[i],
+                        amount: parseFloat(expenseAmounts[i]) || 0,
+                        frequency: expenseFrequencies[i] || 'monthly'
+                    });
+                }
+            }
+            
+            // Process debt items
+            const debtCreditors = formData.getAll('debt_creditor[]');
+            const debtAmounts = formData.getAll('debt_amount[]');
+            const debtInterests = formData.getAll('debt_interest[]');
+            const debtStartDates = formData.getAll('debt_start_date[]');
+            const debtEndDates = formData.getAll('debt_end_date[]');
+            
+            // Add client to global array
+            clients.push(clientData);
+            console.log("Added client to clients array:", clientData);
+            console.log("Updated clients array:", clients);
+            
+            // Add debts as separate items
+            for (let i = 0; i < debtCreditors.length; i++) {
+                if (debtCreditors[i] && debtAmounts[i]) {
+                    const debtData = {
+                        id: generateId(),
+                        client_id: clientData.id,
+                        creditor: debtCreditors[i],
+                        amount: parseFloat(debtAmounts[i]) || 0,
+                        interest_rate: parseFloat(debtInterests[i]) || 0,
+                        start_date: debtStartDates[i] || '',
+                        end_date: debtEndDates[i] || '',
+                        status: 'active'
+                    };
+                    
+                    debts.push(debtData);
+                    console.log("Added debt:", debtData);
+                }
+            }
+            
+            console.log("Updated debts array:", debts);
+            
+            // Update UI
+            updateClientTable(clients);
+            updateDebtTable(debts);
+            updateClientSelect();
+            updateStats();
+            updateChart();
+            
+            // Reset form and hide modal
+            form.reset();
+            hideModal('addClientModal');
+            
+            // Reset to step 1 for next time
+            document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
+            document.getElementById('step1').style.display = 'block';
+            
+            // Reset step indicators
+            document.querySelectorAll('.step-indicator').forEach(indicator => indicator.classList.remove('active'));
+            document.querySelector('.step-indicator[data-step="1"]').classList.add('active');
             
             showNotification('Cliënt succesvol toegevoegd', 'success');
         }
@@ -3024,7 +3274,7 @@
             return labels[type] || type;
         }
         
-        // Load debt edit form data
+        // Update debt edit form data
         function loadDebtEditFormData(debt) {
             document.getElementById('editDebtId').value = debt.id;
             document.getElementById('editDebtCreditor').value = debt.creditor;
@@ -3339,6 +3589,71 @@
                 });
             }
         }
+    </script>
+    
+    <script>
+        // Extra script om de multi-step knoppen te fixen
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fix voor de Volgende knoppen
+            document.querySelectorAll('.form-step button').forEach(button => {
+                // Verwijder bestaande onclick attributen
+                if (button.hasAttribute('onclick')) {
+                    button.removeAttribute('onclick');
+                }
+                
+                // Voeg de juiste event listeners toe
+                if (button.textContent === 'Volgende') {
+                    const currentStep = parseInt(button.closest('.form-step').id.replace('step', ''));
+                    const nextStepNum = currentStep + 1;
+                    console.log(`Setting up next button from step ${currentStep} to ${nextStepNum}`);
+                    
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log(`Next button clicked: ${currentStep} -> ${nextStepNum}`);
+                        nextStep(nextStepNum);
+                    });
+                } 
+                else if (button.textContent === 'Vorige' || button.textContent === 'Terug') {
+                    const currentStep = parseInt(button.closest('.form-step').id.replace('step', ''));
+                    const prevStepNum = currentStep - 1;
+                    console.log(`Setting up prev button from step ${currentStep} to ${prevStepNum}`);
+                    
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log(`Prev button clicked: ${currentStep} -> ${prevStepNum}`);
+                        prevStep(prevStepNum);
+                    });
+                }
+            });
+            
+            // Fix voor de + knoppen
+            const addIncomeButton = document.querySelector('button[onclick="addIncomeItem()"]');
+            if (addIncomeButton) {
+                addIncomeButton.removeAttribute('onclick');
+                addIncomeButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    addIncomeItem();
+                });
+            }
+            
+            const addExpenseButton = document.querySelector('button[onclick="addExpenseItem()"]');
+            if (addExpenseButton) {
+                addExpenseButton.removeAttribute('onclick');
+                addExpenseButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    addExpenseItem();
+                });
+            }
+            
+            const addDebtButton = document.querySelector('button[onclick="addDebtItem()"]');
+            if (addDebtButton) {
+                addDebtButton.removeAttribute('onclick');
+                addDebtButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    addDebtItem();
+                });
+            }
+        });
     </script>
 </body>
 </html>
